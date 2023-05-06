@@ -71,11 +71,10 @@ Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dil
 - Dengan melakukan data preparation, hasil analisis dan model yang dihasilkan akan lebih akurat dan efektif.
 - Pembagian dataset training dan dataset validasi yaitu 80% banding 20% untuk mempercepat proses mesin belajar dan evaluasi model.
 
-![Heatmap](https://user-images.githubusercontent.com/70827786/234901719-07621fc2-4620-41cf-937b-968aeb5781fe.png)
-Gambar 4. Heatmap dataset churn
+![1](https://user-images.githubusercontent.com/70827786/236629108-548bb301-3508-4021-bc29-7b38f6435ad8.png)
+Gambar 1. Heatmap dataset movie_details
 
-> Dilihat "age" dengan "exited" memiliki korelasi positif lemah, berarti semakin tua usia nasabah, semakin tinggi kemungkinannya untuk keluar dari bank.
-> Dilihat "NumOfProducts" dengan "Balance", memiliki korelasi negatif paling besar, berarti semakin banyak produk yang dimiliki oleh nasabah, semakin rendah jumlah saldo yang dimilikinya.
+> Dilihat masing-masing variabel memiliki korelasi positif, namun lemah.
 
 ## Data Modelling
 
@@ -85,7 +84,10 @@ Model menggunakan collaboration filtering, karena di dataset hanya ada nilai rat
 > Pada proses training, model menghitung skor kecocokan antara pengguna dan film dengan teknik embedding. Pertama, kita melakukan proses embedding terhadap data user dan film. Selanjutnya, lakukan operasi perkalian dot product antara embedding user dan film. Selain itu, kita juga dapat menambahkan bias untuk setiap user dan film. Skor kecocokan ditetapkan dalam skala [0,1] dengan fungsi aktivasi sigmoid.
 > Selanjutnya, lakukan proses compile terhadap model. Model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation.
 
-Pada proses training model cukup smooth dan model konvergen pada epochs sekitar 20. Dari proses ini, kita memperoleh nilai error akhir sebesar sekitar 0.16 dan error pada data validasi sebesar 0.17 . Nilai tersebut cukup bagus untuk sistem rekomendasi.
+![2](https://user-images.githubusercontent.com/70827786/236631054-a3870425-ee74-49b2-b4f4-c4894703b99a.png)
+Gambar 2. Visualisasi training dan validasi dataset
+
+Pada gambar 2. proses training model cukup smooth dan model konvergen pada epochs sekitar 20. Dari proses ini, kita memperoleh nilai error akhir sebesar sekitar 0.16 dan error pada data validasi sebesar 0.17 . Nilai tersebut cukup bagus untuk sistem rekomendasi.
 
 ## Evaluation
 
@@ -96,8 +98,10 @@ Untuk mendapatkan rekomendasi film, pertama kita ambil sampel user secara acak d
 
 Sebagai contoh, hasil di atas adalah rekomendasi untuk user dengan id 67443. Dari output tersebut, kita dapat membandingkan antara film with high ratings from user dan Top 10 film recommendation untuk user. 
 
+![Screenshot 2023-05-06 143957](https://user-images.githubusercontent.com/70827786/236629267-55d9e793-d266-4343-9989-65d156dc6a14.png)
+Gambar 3. Rekomendasi film pada user
 
-Pada Gambar 7. Perhatikanlah, beberapa film rekomendasi menyediakan genres yang sesuai dengan rating user. Kita memperoleh 4 rekomendasi film dengan genres Drama, 1 rekomendasi film dengan genres Documentary/War. Ada 10 rekomendasi film untuk pengguna agar pengguna tidak bingung dan memilih untuk menonton film tersebut, dan meminimalisir kekecewaan pengguna pada sistem rekomendasi ini
+Pada Gambar 3. Perhatikanlah, beberapa film rekomendasi menyediakan genres yang sesuai dengan rating user. Kita memperoleh 4 rekomendasi film dengan genres Drama, 1 rekomendasi film dengan genres Documentary/War. Ada 10 rekomendasi film untuk pengguna agar pengguna tidak bingung dan memilih untuk menonton film tersebut, dan meminimalisir kekecewaan pengguna pada sistem rekomendasi ini.
 
 ## REFERENCES
 [1] McKinsey & Company. (2019). Personalization is not a product. Dikutip dari https://www.mckinsey.com/business-functions/marketing-and-sales/our-insights/personalization-is-not-a-product
