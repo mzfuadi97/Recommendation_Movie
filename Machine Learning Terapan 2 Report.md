@@ -76,32 +76,38 @@ Gambar 1. Heatmap dataset movie_details
 
 > Dilihat masing-masing variabel memiliki korelasi positif, namun lemah.
 
-## Data Modelling
+## Data Modelling and Result
 
 Model menggunakan collaboration filtering, karena di dataset hanya ada nilai rating dari user untuk menentukan sistem rekomendasi. 
 
 > Tujuan proyek ini menghasilkan rekomendasi sejumlah film yang sesuai dengan preferensi pengguna berdasarkan rating yang telah diberikan sebelumnya. Dari data rating pengguna, kita akan mengidentifikasi film-film yang mirip dan belum pernah dikunjungi oleh pengguna untuk direkomendasikan.
 > Pada proses training, model menghitung skor kecocokan antara pengguna dan film dengan teknik embedding. Pertama, kita melakukan proses embedding terhadap data user dan film. Selanjutnya, lakukan operasi perkalian dot product antara embedding user dan film. Selain itu, kita juga dapat menambahkan bias untuk setiap user dan film. Skor kecocokan ditetapkan dalam skala [0,1] dengan fungsi aktivasi sigmoid.
 > Selanjutnya, lakukan proses compile terhadap model. Model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation.
-
-![2](https://user-images.githubusercontent.com/70827786/236631054-a3870425-ee74-49b2-b4f4-c4894703b99a.png)
-Gambar 2. Visualisasi training dan validasi dataset
-
-Pada gambar 2. proses training model cukup smooth dan model konvergen pada epochs sekitar 20. Dari proses ini, kita memperoleh nilai error akhir sebesar sekitar 0.16 dan error pada data validasi sebesar 0.17 . Nilai tersebut cukup bagus untuk sistem rekomendasi.
-
-## Evaluation
-
-Pada hasil evaluasi memiih kasus rekomendasi sistem dan menggunakan collaborative filtering. Jelaskan mengenai beberapa hal berikut:
-
-
-Untuk mendapatkan rekomendasi film, pertama kita ambil sampel user secara acak dan definisikan variabel film_not_watched yang merupakan daftar film yang belum pernah dikunjungi oleh pengguna. Kita menggunakan rating ini untuk membuat rekomendasi film yang mungkin cocok untuk pengguna. Nah, film yang akan direkomendasikan tentulah film yang belum pernah dikunjungi oleh pengguna. Oleh karena itu, kita perlu membuat variabel film_not_visited sebagai daftar film untuk direkomendasikan pada pengguna.
+> Model yang dihasilkan akan dilatih menggunakan data latih (x_train dan y_train) dengan menggunakan stokastik gradient descent sebagai optimizer. Proses training akan dilakukan selama 20 epoch atau iterasi dengan setiap batch yang terdiri dari 8 sampel.
+> Berikutnya Top-N recommendation sebagai output dari sistem rekomendasi collaboration filtering ini yang menyajikan daftar N item teratas yang direkomendasikan untuk pengguna berdasarkan preferensi dan perilaku pengguna serta informasi dari item-item yang telah diberi rating oleh pengguna lain. > 
+> Untuk mendapatkan rekomendasi film, pertama kita ambil sampel user secara acak dan definisikan variabel film_not_watched yang merupakan daftar film yang belum pernah dikunjungi oleh pengguna. Kita menggunakan rating ini untuk membuat rekomendasi film yang mungkin cocok untuk pengguna. Nah, film yang akan direkomendasikan tentulah film yang belum pernah dikunjungi oleh pengguna. Oleh karena itu, kita perlu membuat variabel film_not_visited sebagai daftar film untuk direkomendasikan pada pengguna.
 
 Sebagai contoh, hasil di atas adalah rekomendasi untuk user dengan id 67443. Dari output tersebut, kita dapat membandingkan antara film with high ratings from user dan Top 10 film recommendation untuk user. 
 
 ![Screenshot 2023-05-06 143957](https://user-images.githubusercontent.com/70827786/236629267-55d9e793-d266-4343-9989-65d156dc6a14.png)
-Gambar 3. Rekomendasi film pada user
+Gambar 2. Top N Rekomendasi film pada user.
 
-Pada Gambar 3. Perhatikanlah, beberapa film rekomendasi menyediakan genres yang sesuai dengan rating user. Kita memperoleh 4 rekomendasi film dengan genres Drama, 1 rekomendasi film dengan genres Documentary/War. Ada 10 rekomendasi film untuk pengguna agar pengguna tidak bingung dan memilih untuk menonton film tersebut, dan meminimalisir kekecewaan pengguna pada sistem rekomendasi ini.
+Pada Gambar 2. Perhatikanlah, beberapa film rekomendasi menyediakan genres yang sesuai dengan rating user. Kita memperoleh 4 rekomendasi film dengan genres Drama, 1 rekomendasi film dengan genres Documentary/War. Ada 10 rekomendasi film untuk pengguna agar pengguna tidak bingung dan memilih untuk menonton film tersebut, dan meminimalisir kekecewaan pengguna pada sistem rekomendasi ini.
+
+## Evaluation
+
+Pada hasil evaluasi memiih kasus rekomendasi sistem (Top N) dan menggunakan collaborative filtering. Berikut metrik penjelasan evaluasinya :
+
+Dalam konteks top-N recommendation dan collaborative rating, RMSE dapat digunakan untuk mengevaluasi performa model dalam memberikan prediksi rating untuk item yang belum pernah dilihat oleh pengguna. Semakin rendah nilai RMSE, semakin baik performa model dalam merekomendasikan item yang relevan dan disukai oleh pengguna. Oleh karena itu, evaluasi dengan menggunakan RMSE sangat penting dalam memperbaiki kualitas rekomendasi pada sistem rekomendasi collaborative filtering.
+
+![2](https://user-images.githubusercontent.com/70827786/236631054-a3870425-ee74-49b2-b4f4-c4894703b99a.png)
+Gambar 3. Visualisasi training dan validasi dataset
+
+Pada gambar 3. proses training model cukup smooth dan model konvergen pada epochs sekitar 20. Dari proses ini, kita memperoleh nilai error(RMSE) sebesar sekitar 0.16 dan error pada data validasi sebesar 0.17 . Nilai tersebut cukup bagus untuk sistem rekomendasi.
+
+## Conclusion
+
+> Dari proyek ini, dapat disimpulkan bahwa sistem rekomendasi menggunakan collaborative filtering dapat digunakan untuk merekomendasikan item-item yang relevan dan disukai oleh pengguna. Model ini menggunakan collaborative filtering untuk merekomendasikan film berdasarkan rating pengguna. Proses training menggunakan teknik embedding dan dot product, dan hasilnya dinilai dengan Binary Crossentropy dan RMSE. Dari evaluasi dengan RMSE, model ini cukup baik dalam merekomendasikan film dengan nilai RMSE sekitar 0.16. Top N recommendation digunakan untuk menyajikan daftar N item teratas yang direkomendasikan untuk pengguna. Evaluasi model dilakukan dengan melihat visualisasi training dan validasi dataset.
 
 ## REFERENCES
 [1] McKinsey & Company. (2019). Personalization is not a product. Dikutip dari https://www.mckinsey.com/business-functions/marketing-and-sales/our-insights/personalization-is-not-a-product
