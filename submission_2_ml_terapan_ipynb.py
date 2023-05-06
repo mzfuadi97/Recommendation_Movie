@@ -127,6 +127,8 @@ movie_pivot
 preparation = df
 preparation.sort_values('movieId')
 
+preparation.head()
+
 import seaborn as sns
 cmap=sns.diverging_palette(150,75,  s=40, l=65, n=9)
 corrmat = preparation.corr()
@@ -284,10 +286,10 @@ movie_df = movies
  
 # Mengambil sample user
 user_id = df.userId.sample(1).iloc[0]
-movie_visited_by_user = df[df.userId == user_id]
+movie_watched_by_user = df[df.userId == user_id]
  
 # Operator bitwise (~), bisa diketahui di sini https://docs.python.org/3/reference/expressions.html 
-movie_not_watched = movie_df[~movie_df['movieId'].isin(movie_visited_by_user.movieId.values)]['movieId'] 
+movie_not_watched = movie_df[~movie_df['movieId'].isin(movie_watched_by_user.movieId.values)]['movieId'] 
 movie_not_watched = list(
     set(movie_not_watched)
     .intersection(set(movie_to_movie_encoded.keys()))
@@ -303,11 +305,28 @@ movies.head()
 
 """### Mendapatkan rekomendasi film"""
 
+# Mengambil sample user
+user_id = df.userId.sample(1).iloc[0]
+movie_watched_by_user = df[df.userId == user_id]
+ 
+# Operator bitwise (~), bisa diketahui di sini https://docs.python.org/3/reference/expressions.html 
+movie_not_watched = movie_df[~movie_df['movieId'].isin(movie_watched_by_user.movieId.values)]['movieId'] 
+movie_not_watched = list(
+    set(movie_not_watched)
+    .intersection(set(movie_to_movie_encoded.keys()))
+)
+ 
+movie_not_watched = [[movie_to_movie_encoded.get(x)] for x in movie_not_watched]
+user_encoder = user_to_user_encoded.get(user_id)
+user_movie_array = np.hstack(
+    ([[user_encoder]] * len(movie_not_watched), movie_not_watched)
+)
+
 ratings = model.predict(user_movie_array).flatten()
  
 top_ratings_indices = ratings.argsort()[-10:][::-1]
 recommended_movie_ids = [
-    movie_encoded_to_movie.get(movie_not_visited[x][0]) for x in top_ratings_indices
+    movie_encoded_to_movie.get(movie_not_watched[x][0]) for x in top_ratings_indices
 ]
  
 print('Showing recommendations for users: {}'.format(user_id))
@@ -316,7 +335,7 @@ print('movie with high ratings from user')
 print('----' * 8)
  
 top_movie_user = (
-    movie_visited_by_user.sort_values(
+    movie_watched_by_user.sort_values(
         by = 'rating',
         ascending=False
     )
